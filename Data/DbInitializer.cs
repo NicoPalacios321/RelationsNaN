@@ -70,6 +70,52 @@ namespace RelationsNaN.Data
                 await _context.SaveChangesAsync();
 
             }
+            if (_context.Purchase.Count() == 0)
+            {
+                Purchase purchase = new Purchase()
+                {
+
+                };
+                await _context.Purchase.AddAsync(purchase);
+
+                // On va chercher les 2 premiers jeux
+                Game game1 = _context.Game.First(x => x.Id == 1);
+                Game game2 = _context.Game.First(x => x.Id == 2);
+
+                // Création d'une 1ere relation avec le premier jeu
+                GamePurchase gamePurchase1 = new GamePurchase()
+                {
+                    Game = game1,
+                    Purchase = purchase
+                };
+                await _context.AddAsync(gamePurchase1);
+
+                // Création d'une 2e relation avec encore le premier jeu
+                GamePurchase gamePurchase2 = new GamePurchase()
+                {
+                    Game = game1,
+                    Purchase = purchase
+                };
+                await _context.AddAsync(gamePurchase2);
+
+                // Création d'une 3e relation avec le deuxième jeu
+                GamePurchase gamePurchase3 = new GamePurchase()
+                {
+                    Game = game2,
+                    Purchase = purchase
+                };
+                await _context.AddAsync(gamePurchase3);
+
+                // Création d'une 4e relation avec ENCORE le premier jeu
+                GamePurchase gamePurchase4 = new GamePurchase()
+                {
+                    Game = game1,
+                    Purchase = purchase
+                };
+                await _context.AddAsync(gamePurchase4);
+
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }
